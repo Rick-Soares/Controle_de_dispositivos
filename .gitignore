@@ -1,0 +1,39 @@
+# === AMBIENTE VIRTUAL (VENV) ===
+# Oculta pastas de ambientes virtuais comuns
+.venv/
+venv/
+ENV/
+env/
+
+# === PYCHARM & IDEs ===
+# Oculta configurações específicas do PyCharm/IntelliJ
+.idea/
+*.iml
+*.iws
+
+# === ARQUIVOS SENSÍVEIS (SEGURANÇA) ===
+# Oculta credenciais, senhas e chaves de API
+.env
+*.env
+.secret
+credentials.json
+
+# === CACHES E COMPILADOS DO PYTHON ===
+# Oculta arquivos gerados automaticamente na execução do código
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+htmlcov/
+.pytest_cache/
+.tox/
+.coverage
+.cache/
+
+# === SISTEMA OPERACIONAL ===
+# Oculta arquivos inúteis criados pelo Windows e macOS
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+.DS_Store
