@@ -20,6 +20,13 @@ class SensorBPM(Dispositivo):
         if not entrada or not entrada.strip():
             raise ValueError("O número de emergência não pode estar vazio.")
 
+        entrada_limpa = entrada.strip()
+        if len(entrada_limpa) < 8 or len(entrada_limpa) > 11:
+            raise ValueError("O número deve ter entre 8 a 11 caracteres.")
+
+        if not entrada_limpa.isdigit():
+            raise ValueError("O número deve conter apenas digitos númericos")
+
         self.__numero = entrada.strip()
 
     @property
