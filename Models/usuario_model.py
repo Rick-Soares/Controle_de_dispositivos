@@ -8,7 +8,9 @@ class Usuario:
         self.email = email
         self.__dispositivos_salvos : list[Dispositivo] = []
         self.__identidade = uuid4()
-
+    @property
+    def identidade(self):
+        return self.__identidade
     @property
     def nome(self) -> str:
         return self.__nome
@@ -43,6 +45,18 @@ class Usuario:
     @property
     def dispositivos_salvos(self) -> list[Dispositivo]:
         return self.__dispositivos_salvos.copy()
+
+    def _salvar_dispositivo(self, dispositivo : Dispositivo) -> None:
+        if not isinstance(dispositivo, Dispositivo):
+            raise TypeError("Insira um objeto do tipo Dispositivo")
+        self.__dispositivos_salvos.append(dispositivo)
+        return None
+
+    def _remover_dispositivo(self, dispositivo : Dispositivo) -> None:
+        if not isinstance(dispositivo, Dispositivo):
+            raise TypeError("Insira um objeto do tipo Dispositivo")
+        self.__dispositivos_salvos.remove(dispositivo)
+        return None
 
     def quantidade_dispositivos_salvos(self) -> int:
         return len(self.__dispositivos_salvos)

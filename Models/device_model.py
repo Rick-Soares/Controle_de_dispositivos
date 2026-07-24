@@ -10,7 +10,9 @@ class Dispositivo:
         self.__status : str = "Ativo"
         self.__criado_em : datetime = datetime.now(UTC)
         self.__identidade = uuid.uuid4()
-
+    @property
+    def identidade(self):
+        return self.__identidade
     @property
     def nome(self) -> str:
         return self.__nome
