@@ -3,7 +3,7 @@ from Models.device_model import Dispositivo
 class DetectorQueda(Dispositivo):
     def __init__(self, nome : str, numero : str):
         super().__init__(nome)
-        self.numero : str = numero
+        self.numero = numero
 
     @property
     def numero(self):

@@ -17,7 +17,7 @@ class SensorTemperatura(Dispositivo):
         return ultima_temperatura
 
     def ler_temperatura(self) -> float:
-        temperatura_atual = uniform(0,35)
+        temperatura_atual = uniform(0,100)
         self.__historico_temperaturas.append(temperatura_atual)
         return temperatura_atual
 
