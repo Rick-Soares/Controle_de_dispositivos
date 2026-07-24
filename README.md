@@ -1,4 +1,4 @@
-# 📱 Controle de Dispositivos IoT
+# 📱 Controle de Dispositivos IoT (simulação)
 
 Projeto desenvolvido com o objetivo de consolidar meus conhecimentos em **Programação Orientada a Objetos (POO)** utilizando Python e servir como parte do meu portfólio de estudos para desenvolvimento Backend.
 
