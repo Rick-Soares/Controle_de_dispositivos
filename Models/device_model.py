@@ -3,13 +3,22 @@ import uuid
 
 
 class Dispositivo:
-    def __init__(self, nome : str):
+    def __init__(self, id_dispositivo : uuid.UUID | None = None,
+                 nome : str = str,
+                 status : str | None = None,
+                 criado_em : str | datetime | None = None,
+                 id_usuario : str | uuid.UUID | None = None):
         self.nome = nome
 
         self.__bateria : float = 100
-        self.__status : str = "Ativo"
-        self.__criado_em : datetime = datetime.now(UTC)
-        self.__identidade = uuid.uuid4()
+        self.__status : str = status or "Ativo"
+        self.__criado_em : datetime = criado_em or datetime.now(UTC)
+        self.__identidade = id_dispositivo or uuid.uuid4()
+        self.__id_usuario = id_usuario or None
+
+    @property
+    def id_usuario(self) -> uuid.UUID | None | str:
+        return self.__id_usuario
     @property
     def identidade(self):
         return self.__identidade
@@ -80,3 +89,7 @@ class Dispositivo:
     @property
     def status(self) -> str:
         return self.__status
+
+    @property
+    def criado_em(self) -> datetime:
+        return self.__criado_em

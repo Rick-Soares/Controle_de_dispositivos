@@ -9,19 +9,19 @@ class GerenciadorDispositivos:
 
     @property
     def dispositivos_registrados(self) -> list:
-        return self.__dispositivos_registrados.copy()
+        return lista_dispositivos()
 
     @property
     def usuarios_registrados(self) -> list:
-        return self.__usuarios_registrados.copy()
+        return lista_usuarios()
 
     def registrar_dispositivo(self, dispositivo : Dispositivo) -> None:
         if not isinstance(dispositivo, Dispositivo):
             raise TypeError("Adicione um objeto do tipo 'Dispositivo'")
+        if busca_dispositivo(dispositivo.identidade) is not None:
+            raise ValueError("Dispositivo já existe")
 
-        if dispositivo in self.__dispositivos_registrados:
-            raise ValueError("Esse dispositivo já foi registrado")
-        self.__dispositivos_registrados.append(dispositivo)
+        salva_dispositivo(dispositivo)
         return None
 
     def registrar_usuario(self, usuario : Usuario) -> None:
@@ -37,14 +37,9 @@ class GerenciadorDispositivos:
         resposta = busca_usuario(id_usuario)
         return resposta
 
-    def buscar_dispositivo(self, id_dispositivo) -> Dispositivo:
-        if not self.__dispositivos_registrados:
-            raise ValueError("Não há dispositivos registrados")
-
-        for d in self.__dispositivos_registrados:
-            if d.identidade == id_dispositivo:
-                return d
-        raise ValueError("Dispositivo não encontrado.")
+    def buscar_dispositivo(self, id_dispositivo) -> Dispositivo | None:
+        resposta = busca_dispositivo(id_dispositivo)
+        return resposta
 
     def remover_usuario(self, id_usuario) -> None:
         resposta = remove_usuario(id_usuario)

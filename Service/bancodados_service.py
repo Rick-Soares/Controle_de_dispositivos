@@ -3,6 +3,8 @@ import sqlite3
 from pathlib import Path
 
 from dotenv import load_dotenv
+
+from Models.device_model import Dispositivo
 from Models.usuario_model import Usuario
 
 raiz = Path(__file__).resolve().parent.parent
@@ -12,7 +14,7 @@ caminho_db = os.getenv("CAMINHO_BANCO")
 def abrir_conexao():
     return sqlite3.connect(caminho_db)
 
-def salva_usuario(usuario : Usuario):
+def salva_usuario(usuario : Usuario) -> None:
     with abrir_conexao() as conexao:
         cursor = conexao.cursor()
 
@@ -50,3 +52,46 @@ def remove_usuario(id_usuario) -> bool:
             return False
 
         return True
+
+def salva_dispositivo(dispositivo : Dispositivo) -> None:
+    with abrir_conexao() as conexao:
+        cursor = conexao.cursor()
+
+        comando = """INSERT INTO dispositivos (id, nome, status, criado_em) VALUES (?,?,?,?)"""
+        valores = (f"{dispositivo.identidade}", dispositivo.nome, dispositivo.status, f"{dispositivo.criado_em}")
+
+        cursor.execute(comando, valores)
+
+def busca_dispositivo(id_dispositivo) -> Dispositivo | None:
+    with abrir_conexao() as conexao:
+        cursor = conexao.cursor()
+
+        comando = "SELECT * FROM dispositivos WHERE id = (?)"
+        valor = (str(id_dispositivo),)
+
+        cursor.execute(comando, valor)
+
+        resposta = cursor.fetchone()
+        if resposta is None:
+            return None
+        return Dispositivo(resposta[0], resposta[2], resposta[3], resposta[4], resposta[1])
+
+def lista_usuarios() -> list:
+    with abrir_conexao() as conexao:
+        cursor = conexao.cursor()
+
+        comando = "SELECT * FROM usuarios"
+        cursor.execute(comando)
+        resposta = cursor.fetchall()
+
+        return resposta
+
+def lista_dispositivos() -> list:
+    with abrir_conexao() as conexao:
+        cursor = conexao.cursor()
+
+        comando = "SELECT * FROM dispositivos"
+        cursor.execute(comando)
+        resposta = cursor.fetchall()
+
+        return resposta
