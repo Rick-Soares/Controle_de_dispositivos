@@ -1,6 +1,6 @@
 from Models.device_model import Dispositivo
 from Models.usuario_model import Usuario
-
+from Service.bancodados_service import *
 
 class GerenciadorDispositivos:
     def __init__(self):
@@ -26,21 +26,16 @@ class GerenciadorDispositivos:
 
     def registrar_usuario(self, usuario : Usuario) -> None:
         if not isinstance(usuario, Usuario):
-            raise TypeError("Adicione um objeto do tipo 'Usuario'")
+            raise TypeError("Adicione um objeto do tipo 'Usuário'")
+        if busca_usuario(usuario.identidade) is not None:
+            raise ValueError("Usuário já existe")
 
-        if usuario in self.__usuarios_registrados:
-            raise ValueError("Esse usuário já foi registrado")
-        self.__usuarios_registrados.append(usuario)
+        salva_usuario(usuario= usuario)
         return None
 
-    def buscar_usuario(self, id_usuario) -> Usuario:
-        if not self.__usuarios_registrados:
-            raise ValueError("Não há usuarios registrados")
-
-        for u in self.__usuarios_registrados:
-            if u.identidade == id_usuario:
-                return u
-        raise ValueError("Usuario não encontrado.")
+    def buscar_usuario(self, id_usuario) -> Usuario | None:
+        resposta = busca_usuario(id_usuario)
+        return resposta
 
     def buscar_dispositivo(self, id_dispositivo) -> Dispositivo:
         if not self.__dispositivos_registrados:
@@ -51,11 +46,12 @@ class GerenciadorDispositivos:
                 return d
         raise ValueError("Dispositivo não encontrado.")
 
-    def remover_usuario(self, id_usuario) -> tuple[bool, str]:
-        usuario = self.buscar_usuario(id_usuario)
+    def remover_usuario(self, id_usuario) -> None:
+        resposta = remove_usuario(id_usuario)
+        if not resposta:
+            raise ValueError("ID de usuário não registrado no banco de dados.")
 
-        self.__usuarios_registrados.remove(usuario)
-        return True, "Usuario removido"
+        return None
 
     def associar_dispositivo(self, id_usuario, id_dispositivo) -> None:
         usuario = self.buscar_usuario(id_usuario)

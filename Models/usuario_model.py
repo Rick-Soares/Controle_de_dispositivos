@@ -3,11 +3,11 @@ from uuid import uuid4
 from Models.device_model import Dispositivo
 
 class Usuario:
-    def __init__(self, nome : str, email : str):
+    def __init__(self, id_usuario : str | None = None, nome : str = str, email : str = str):
         self.nome = nome
         self.email = email
         self.__dispositivos_salvos : list[Dispositivo] = []
-        self.__identidade = uuid4()
+        self.__identidade = id_usuario or uuid4()
     @property
     def identidade(self):
         return self.__identidade
