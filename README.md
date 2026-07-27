@@ -40,10 +40,11 @@ Atualmente o sistema permite:
   * Detector de Quedas
   * Sensor de Temperatura
   * Sensor BPM
+* Persistência de dados com SQLite
 
 ---
 
-## 📂 Estrutura do Projeto
+## 📂 Estrutura Atual do Projeto
 
 ```text
 Models/
@@ -53,6 +54,10 @@ Models/
 ├── detectorqueda_model.py
 ├── sensortemperatura_model.py
 └── sensorbpm_model.py
+Service/
+└── bancodados_service.py
+BancoDados
+└── banco_de_dados.db
 ```
 
 A organização foi pensada para separar responsabilidades e facilitar futuras expansões do sistema.
@@ -65,8 +70,6 @@ Este projeto continuará evoluindo conforme avanço nos meus estudos em desenvol
 
 As próximas melhorias planejadas incluem:
 
-* Implementação de um banco de dados (SQLite inicialmente)
-* Persistência real dos dados
 * Desenvolvimento de uma API utilizando FastAPI
 * Validação de dados com Pydantic
 * Autenticação com JWT
@@ -81,7 +84,7 @@ As próximas melhorias planejadas incluem:
 * Programação Orientada a Objetos
 * UUID
 * Type Hints
-
+* SQLite 3
 ---
 
 ## 📚 Sobre este projeto
