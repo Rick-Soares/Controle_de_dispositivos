@@ -3,7 +3,7 @@ from Models.device_model import Dispositivo
 
 class SensorBPM(Dispositivo):
     def __init__(self, nome : str, numero : str):
-        super().__init__(nome)
+        super().__init__(nome = nome)
         self.numero = numero
         self.__historico_bpm = []
 

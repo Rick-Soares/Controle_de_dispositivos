@@ -3,7 +3,7 @@ from Models.device_model import Dispositivo
 
 class SensorTemperatura(Dispositivo):
     def __init__(self, nome : str):
-        super().__init__(nome)
+        super().__init__(nome = nome)
         self.__historico_temperaturas = []
 
     @property

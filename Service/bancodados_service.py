@@ -84,7 +84,12 @@ def lista_usuarios() -> list:
         cursor.execute(comando)
         resposta = cursor.fetchall()
 
-        return resposta
+        usuarios = []
+        for usuario in resposta:
+            objeto_usuario = Usuario(usuario[0], usuario[1], usuario[2])
+            usuarios.append(objeto_usuario)
+
+        return usuarios
 
 def lista_dispositivos() -> list:
     with abrir_conexao() as conexao:
@@ -94,4 +99,9 @@ def lista_dispositivos() -> list:
         cursor.execute(comando)
         resposta = cursor.fetchall()
 
-        return resposta
+        dispositivos = []
+        for dispositivo in resposta:
+            d = Dispositivo(dispositivo[0], dispositivo[2], dispositivo[3], dispositivo[4], dispositivo[1])
+            dispositivos.append(d)
+
+        return dispositivos
