@@ -105,3 +105,25 @@ def lista_dispositivos() -> list:
             dispositivos.append(d)
 
         return dispositivos
+
+def associa_dispositivo(id_usuario, id_dispositivo) -> None:
+    with abrir_conexao() as conexao:
+        cursor = conexao.cursor()
+        comando = "UPDATE dispositivos SET id_usuario = (?) WHERE id = (?)"
+        valores = (str(id_usuario), str(id_dispositivo))
+
+        cursor.execute(comando, valores)
+
+        if cursor.rowcount == 0:
+            raise ValueError("Dispositivo não encontrado.")
+
+def desassocia_dispositivo(id_dispositivo) -> None:
+    with abrir_conexao() as conexao:
+        cursor = conexao.cursor()
+        comando = "UPDATE dispositivos SET id_usuario = NULL WHERE id = (?)"
+        valor = (str(id_dispositivo),)
+
+        cursor.execute(comando, valor)
+
+        if cursor.rowcount == 0:
+            raise ValueError("Dispositivo não encontrado")

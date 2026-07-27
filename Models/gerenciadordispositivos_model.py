@@ -1,21 +1,16 @@
-from Models.device_model import Dispositivo
-from Models.usuario_model import Usuario
 from Service.bancodados_service import *
 
 class GerenciadorDispositivos:
-    def __init__(self):
-        self.__dispositivos_registrados : list[Dispositivo]= []
-        self.__usuarios_registrados : list[Usuario] = []
-
-    @property
-    def dispositivos_registrados(self) -> list:
+    @staticmethod
+    def dispositivos_registrados() -> list:
         return lista_dispositivos()
 
-    @property
-    def usuarios_registrados(self) -> list:
+    @staticmethod
+    def usuarios_registrados() -> list:
         return lista_usuarios()
 
-    def registrar_dispositivo(self, dispositivo : Dispositivo) -> None:
+    @staticmethod
+    def registrar_dispositivo(dispositivo : Dispositivo) -> None:
         if not isinstance(dispositivo, Dispositivo):
             raise TypeError("Adicione um objeto do tipo 'Dispositivo'")
         if busca_dispositivo(dispositivo.identidade) is not None:
@@ -24,7 +19,8 @@ class GerenciadorDispositivos:
         salva_dispositivo(dispositivo)
         return None
 
-    def registrar_usuario(self, usuario : Usuario) -> None:
+    @staticmethod
+    def registrar_usuario(usuario : Usuario) -> None:
         if not isinstance(usuario, Usuario):
             raise TypeError("Adicione um objeto do tipo 'Usuário'")
         if busca_usuario(usuario.identidade) is not None:
@@ -33,15 +29,18 @@ class GerenciadorDispositivos:
         salva_usuario(usuario= usuario)
         return None
 
-    def buscar_usuario(self, id_usuario) -> Usuario | None:
+    @staticmethod
+    def buscar_usuario(id_usuario) -> Usuario | None:
         resposta = busca_usuario(id_usuario)
         return resposta
 
-    def buscar_dispositivo(self, id_dispositivo) -> Dispositivo | None:
+    @staticmethod
+    def buscar_dispositivo(id_dispositivo) -> Dispositivo | None:
         resposta = busca_dispositivo(id_dispositivo)
         return resposta
 
-    def remover_usuario(self, id_usuario) -> None:
+    @staticmethod
+    def remover_usuario(id_usuario) -> None:
         resposta = remove_usuario(id_usuario)
         if not resposta:
             raise ValueError("ID de usuário não registrado no banco de dados.")
@@ -51,15 +50,19 @@ class GerenciadorDispositivos:
     def associar_dispositivo(self, id_usuario, id_dispositivo) -> None:
         usuario = self.buscar_usuario(id_usuario)
         dispositivo = self.buscar_dispositivo(id_dispositivo)
+        if usuario is None:
+            raise ValueError("ID de usuário não registrado no banco de dados.")
+        if dispositivo is None:
+            raise ValueError("ID de dispositivo não registrado no banco de dados.")
 
-        usuario._salvar_dispositivo(dispositivo)
+        associa_dispositivo(id_usuario, id_dispositivo) #associa no banco de dados
         return None
 
-    def desassociar_dispositivo(self, id_usuario, id_dispositivo) -> tuple[bool, str]:
-        usuario = self.buscar_usuario(id_usuario)
+    def desassociar_dispositivo(self, id_dispositivo) -> None:
         dispositivo = self.buscar_dispositivo(id_dispositivo)
 
-        if dispositivo in usuario.dispositivos_salvos:
-            usuario._remover_dispositivo(dispositivo)
-            return True, "Dispositivo desassociado ao usuario"
-        return False, "Dispositivo não está associado ao usuario"
+        if dispositivo is None:
+            raise ValueError("ID de dispositivo não registrado no banco de dados.")
+
+        desassocia_dispositivo(id_dispositivo)
+        return None
