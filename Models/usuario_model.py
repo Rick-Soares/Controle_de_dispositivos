@@ -42,21 +42,7 @@ class Usuario:
             raise ValueError("O email deve conter o dominio '@gmail.com'")
         self.__email = entrada_limpa
 
-    @property
     def dispositivos_salvos(self) -> list[Dispositivo]:
-        return self.__dispositivos_salvos.copy()
-
-    def _salvar_dispositivo(self, dispositivo : Dispositivo) -> None:
-        if not isinstance(dispositivo, Dispositivo):
-            raise TypeError("Insira um objeto do tipo Dispositivo")
-        self.__dispositivos_salvos.append(dispositivo)
-        return None
-
-    def _remover_dispositivo(self, dispositivo : Dispositivo) -> None:
-        if not isinstance(dispositivo, Dispositivo):
-            raise TypeError("Insira um objeto do tipo Dispositivo")
-        self.__dispositivos_salvos.remove(dispositivo)
-        return None
-
-    def quantidade_dispositivos_salvos(self) -> int:
-        return len(self.__dispositivos_salvos)
+        from Service.bancodados_service import lista_dispositivos_do_usuario
+        id_usuario = self.identidade
+        return lista_dispositivos_do_usuario(id_usuario)

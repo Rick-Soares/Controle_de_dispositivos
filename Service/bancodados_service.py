@@ -127,3 +127,20 @@ def desassocia_dispositivo(id_dispositivo) -> None:
 
         if cursor.rowcount == 0:
             raise ValueError("Dispositivo não encontrado")
+
+def lista_dispositivos_do_usuario(id_usuario) -> list:
+    with abrir_conexao() as conexao:
+        cursor = conexao.cursor()
+
+        comando = "SELECT * FROM dispositivos WHERE id_usuario = (?)"
+        valor = (str(id_usuario),)
+        cursor.execute(comando, valor)
+
+        resposta = cursor.fetchall()
+
+        dispositivos = []
+        for dispositivo in resposta:
+            d = Dispositivo(dispositivo[0], dispositivo[2], dispositivo[3], dispositivo[4], dispositivo[1])
+            dispositivos.append(d)
+
+        return dispositivos
